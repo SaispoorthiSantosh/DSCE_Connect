@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102a43">
+  <title>DSCE Smart Campus Navigation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">DSCE</div>
+    <div>
+      <h1>Smart Campus Navigation</h1>
+      <p>Dayananda Sagar College of Engineering</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <p class="eyebrow">CAMPUS WAYFINDING</p>
+      <h2>Find your route across campus</h2>
+      <p class="intro-copy">
+        Choose your starting point and destination to view a route,
+        distance, estimated walking time and spoken directions.
+      </p>
+    </section>
+
+    <section class="planner panel">
+      <div class="field">
+        <label for="source">Starting point</label>
+        <select id="source">
+          <option value="">Select starting point</option>
+        </select>
+      </div>
+
+      <button id="swapBtn" class="swap-btn" type="button"
+        aria-label="Swap starting point and destination">⇅</button>
+
+      <div class="field">
+        <label for="destination">Destination</label>
+        <select id="destination">
+          <option value="">Select destination</option>
+        </select>
+      </div>
+
+     <div class="actions">
+  <button id="locateBtn" class="secondary-btn" type="button">
+    📍 My Current Location
+  </button>
+
+  <button id="findBtn" class="primary-btn" type="button">
+    Find route
+  </button>
+
+  <button id="resetBtn" class="secondary-btn" type="button">
+    Reset
+  </button>
+</div>
+    </section>
+
+    <p id="status" class="status" role="status">
+      Select a starting point and destination.
+    </p>
+
+    <!-- CAMPUS MAP -->
+    <section class="panel campus-map-panel">
+      <div class="map-heading">
+        <div>
+          <p class="eyebrow">DSCE CAMPUS MAP</p>
+          <h3>Building locations and walking route</h3>
+        </div>
+        <span class="map-legend"><i></i> Selected route</span>
+      </div>
+
+      <div class="map-scroll">
+        <svg id="campusMap" viewBox="0 0 1400 1000"
+          role="img" aria-label="DSCE campus building map">
+
+          <defs>
+            <pattern id="mapGrid" width="50" height="50"
+              patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50"
+                fill="none" stroke="#151515" stroke-width="1"/>
+            </pattern>
+
+            <filter id="nodeShadow" x="-20%" y="-20%"
+              width="140%" height="140%">
+              <feDropShadow dx="0" dy="3" stdDeviation="3"
+                flood-color="#173b63" flood-opacity=".12"/>
+            </filter>
+          </defs>
+
+          <rect width="1400" height="1000" fill="#000000"/>
+          <rect width="1400" height="1000" fill="url(#mapGrid)"/>
+
+          <g id="routeDrawing"></g>
+          <g id="mapNodes"></g>
+
+        </svg>
+      </div>
+
+      <p class="map-note">
+        This is a schematic campus layout based on the supplied
+        reference image. The blue line appears after selecting
+        two locations and finding a route.
+      </p>
+    </section>
+
+    <!-- ROUTE RESULT -->
+    <section id="result" class="result hidden" aria-live="polite">
+
+      <div class="summary-grid">
+        <article class="metric-card">
+          <span class="metric-label">Total distance</span>
+          <strong id="distanceValue">—</strong>
+        </article>
+
+        <article class="metric-card">
+          <span class="metric-label">Estimated walking time</span>
+          <strong id="timeValue">—</strong>
+        </article>
+
+        <article class="metric-card">
+          <span class="metric-label">Stops in route</span>
+          <strong id="stopsValue">—</strong>
+        </article>
+      </div>
+
+      <div class="route-layout">
+
+        <article class="panel route-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">YOUR ROUTE</p>
+              <h3 id="routeTitle">Route details</h3>
+            </div>
+            <span class="route-tag">Walking</span>
+          </div>
+
+          <ol id="routeSteps" class="route-steps"></ol>
+
+          <div class="voice-actions">
+            <button id="speakBtn" class="primary-btn" type="button">
+              ▶ Start voice directions
+            </button>
+
+            <button id="stopSpeakBtn" class="secondary-btn" type="button">
+              Stop voice
+            </button>
+          </div>
+
+          <p class="small-note">
+            Voice directions use your browser's speech support.
+            Keep this page open while navigating.
+          </p>
+        </article>
+
+        <aside class="panel destination-panel">
+
+          <img id="placeImage" class="place-image"
+            src="" alt="Destination building" hidden>
+
+          <div id="imageFallback" class="image-fallback">
+            Building image will appear here
+          </div>
+
+          <p class="eyebrow">DESTINATION</p>
+          <h3 id="placeName">—</h3>
+
+          <p id="placeDescription" class="place-description">
+            The selected destination image will appear here
+            if its file is available.
+          </p>
+
+        </aside>
+
+      </div>
+    </section>
+
+    <section class="panel info-panel">
+      <h3>How route calculation works</h3>
+
+      <p>
+        The app uses Dijkstra's algorithm on the walking connections
+        entered in <code>script.js</code>. Distance and time are
+        calculated separately.
+      </p>
+
+      <p class="small-note">
+        If a route is missing, check the connection list in
+        <code>script.js</code>. Only add a path when its campus
+        connection and distance/time have been verified.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    DSCE Smart Campus · Campus navigation prototype
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
